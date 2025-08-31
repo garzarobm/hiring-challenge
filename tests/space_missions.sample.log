@@ -1,0 +1,8 @@
+# Sample with inconsistent spacing and comments
+Date | Mission ID | Destination | Status | Crew Size | Duration (days) | Success Rate | Security Code
+2041-01-01 | M-001 | Mars | Completed | 4 | 210 | 98% | ABC-123-XYZ
+2042-02-02|M-002|  Mars  | Completed | 6 | 365 days | 99% | NOTE: CODE=DEF-456-QRS
+2043-03-03 | M-003 | Mars | Aborted | 5 | 999 | 50% | TTT-000-TTT
+   # Internal review
+2044-04-04 | M-004 | Venus | Completed | 3 | 400 | 97% | VEN-400-CSE
+2045-05-05 | M-005 | Mars | Completed | 2 | approx. 400 | 96% | GHI-789-JKL
