@@ -100,9 +100,8 @@ validate_environment() {
     print_status "INFO" "Checking root directory files..."
     
     check_file "README.md" "Project README" || ((errors++))
-    check_file "mission_challenge.md" "Challenge description" || ((errors++))
     check_file "space_missions.log" "Dataset file" || ((errors++))
-    check_file "WARP_AGENT_AWK_ANALYSIS.md" "Solution analysis" || ((errors++))
+    check_file "validate_environment.sh" "Environment validation script" || ((errors++))
     
     # Check enhanced_features directory
     echo
@@ -115,15 +114,42 @@ validate_environment() {
         check_executable "enhanced_features/find_mars_code_pro.awk" "Enhanced AWK script" || ((warnings++))
         check_executable "enhanced_features/run.sh" "Performance wrapper script" || ((warnings++))
         
-        # Check documentation
+        # Check enhanced features README
         check_file "enhanced_features/README.md" "Enhanced features README" || ((errors++))
-        check_file "enhanced_features/ENHANCED_AWK_USAGE.md" "Usage documentation" || ((errors++))
-        check_file "enhanced_features/SPACE_MISSIONS_COMPREHENSIVE_REPORT.md" "Analysis report" || ((errors++))
         
         # Check test directory
         check_directory "enhanced_features/tests" "Test directory" || ((warnings++))
         if [[ -d "enhanced_features/tests" ]]; then
             check_file "enhanced_features/tests/space_missions.sample.log" "Sample test data" || ((warnings++))
+        fi
+    fi
+    
+    # Check docs directory structure
+    echo
+    print_status "INFO" "Checking documentation structure..."
+    
+    check_directory "docs" "Documentation directory" || ((errors++))
+    
+    if [[ -d "docs" ]]; then
+        check_file "docs/README.md" "Documentation index" || ((errors++))
+        
+        # Check analysis documentation
+        check_directory "docs/analysis" "Analysis documentation directory" || ((errors++))
+        if [[ -d "docs/analysis" ]]; then
+            check_file "docs/analysis/WARP_AGENT_AWK_ANALYSIS.md" "Solution analysis" || ((errors++))
+            check_file "docs/analysis/SPACE_MISSIONS_COMPREHENSIVE_REPORT.md" "Comprehensive report" || ((errors++))
+        fi
+        
+        # Check usage documentation
+        check_directory "docs/usage" "Usage documentation directory" || ((errors++))
+        if [[ -d "docs/usage" ]]; then
+            check_file "docs/usage/ENHANCED_AWK_USAGE.md" "Usage guide" || ((errors++))
+        fi
+        
+        # Check project documentation
+        check_directory "docs/project" "Project documentation directory" || ((errors++))
+        if [[ -d "docs/project" ]]; then
+            check_file "docs/project/mission_challenge.md" "Challenge description" || ((errors++))
         fi
     fi
     
