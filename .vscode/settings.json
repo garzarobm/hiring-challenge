@@ -1,0 +1,12 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "-whatismyadapter/WhatIsMyAdaptor": true
+    },
+    "hide-files.files": [],
+    "workbench.editor.alwaysShowEditorActions": true
+}

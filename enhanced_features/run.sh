@@ -7,10 +7,10 @@ set -eu
 # logfile: path to space missions log (default: space_missions.log)
 
 VERBOSE=${1:-0}
-LOGFILE=${2:-space_missions.log}
+LOGFILE=${2:-../space_missions.log}
 
 if [ "$VERBOSE" -eq 0 ]; then
-    LC_ALL=C ./find_mars_code.awk "$LOGFILE"
+    LC_ALL=C ./find_mars_code_pro.awk "$LOGFILE"
 else
-    LC_ALL=C ./find_mars_code.awk -v verbose="$VERBOSE" "$LOGFILE"
+    LC_ALL=C ./find_mars_code_pro.awk -v verbose="$VERBOSE" "$LOGFILE"
 fi
