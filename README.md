@@ -1,56 +1,43 @@
-# Warp Hiring Challenge
+# Warp Hiring Challenge — Space Mission Log Analysis
 
-## About
-This is a programming challenge for candidates who are interested in applying to Warp. It's meant to be short and fun -- we highly encourage you to use Agent Mode in Warp to solve the challenge! There will be fields in the application for you to share your answer and a link to Warp Shared Block containing the command you used to solve the problem.
+Find the security code of the **longest successful Mars mission** in `space_missions.log`
+(105,032 records, `|`-delimited, mixed with comments and noise lines).
 
-Participation in the challenge is optional. You can still submit an application without doing the hiring challenge.
+See the full brief in [mission_challenge.md](mission_challenge.md).
 
-Get started by reading the [challenge description](docs/project/mission_challenge.md). Good luck!
+## Answer
 
-## Project Structure
-
-### Core Files
-- `README.md` - This file
-- `space_missions.log` - Dataset (105,032 lines, ~9.7MB)
-- `validate_environment.sh` - Environment validation script
-
-### Scripts & Tools ([`enhanced_features/`](enhanced_features/))
-Professional AWK solutions and performance tools:
-- `find_mars_code_pro.awk` - Enhanced AWK script with multiple output formats
-- `run.sh` - Performance-optimized wrapper script
-- `tests/` - Test data and validation
-
-### Documentation ([`docs/`](docs/))
-Comprehensive documentation organized by category:
-- **[`docs/analysis/`](docs/analysis/)** - Solution analysis and dataset reports
-- **[`docs/usage/`](docs/usage/)** - Technical usage guides
-- **[`docs/project/`](docs/project/)** - Original challenge materials
-
-See [`docs/README.md`](docs/README.md) for complete documentation index.
-
-## Environment Validation
-
-Before running any commands, validate your environment:
-
-```bash
-# Check if all files and directories are correct
-./validate_environment.sh
-
-# Fix any permission issues if needed
-./validate_environment.sh fix
+```
+XRT-421-ZQP
 ```
 
-## Quick Solution
+Mission `WGU-0200`, launched 2065-06-05, duration **1,629 days** — the longest
+`Mars` mission with `Completed` status.
 
-**Answer**: `XRT-421-ZQP`
+## Solution
+
+A single `awk` command solves it:
 
 ```bash
-# Run the professional AWK solution:
-./enhanced_features/find_mars_code_pro.awk space_missions.log
+awk -F'[[:space:]]*[|][[:space:]]*' \
+  '$3=="Mars" && $4=="Completed" && ($6+0)>max {max=$6+0; code=$8}
+   END{gsub(/[[:space:]]/,"",code); print code}' space_missions.log
 ```
 
-Output: `XRT-421-ZQP`
+### How it handles the traps in the data
 
-## Enhanced Features
+- **Inconsistent spacing around `|`** — the field separator `[[:space:]]*[|][[:space:]]*`
+  is a regex that absorbs any surrounding whitespace, so fields come out clean.
+- **Comment / noise lines** (`#`, `SYSTEM:`, `CONFIG:`, `CHECKPOINT:`, blanks) —
+  they never match `$3=="Mars"` and `$4=="Completed"`, so they're ignored without
+  needing explicit skip rules.
+- **Duration is text that must be compared numerically** — `$6+0` forces a numeric
+  comparison so `1629 > 476` instead of a string comparison.
+- **Trailing whitespace on the security code** — `gsub(/[[:space:]]/,"",code)` strips
+  it so the output is exactly `XRT-421-ZQP`.
 
-For detailed usage, multiple output formats, comprehensive analysis, and professional documentation, see the [`enhanced_features/`](enhanced_features/) folder.
+## Repository layout
+
+- `space_missions.log` — the dataset
+- `mission_challenge.md` — the original challenge brief
+- `README.md` — this file
